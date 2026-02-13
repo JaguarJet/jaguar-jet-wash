@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jaguar Jet Wash | Premium Car Detailing Services</title>
+  <title>Jaguar Jet Wash | Premium Car Detailing & Pressure Washing</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,18 +23,11 @@
       --border: #4a3020;
       --glow: rgba(255, 184, 0, 0.4);
       --danger: #ff6b6b;
+      --success: #4ade80;
     }
     
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    html {
-      scroll-behavior: smooth;
-    }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: var(--bg);
@@ -42,11 +35,15 @@
       overflow-x: hidden;
     }
     
-    .font-display {
-      font-family: 'Bebas Neue', sans-serif;
-    }
-    
-    /* Water Droplet Canvas */
+    .font-display { font-family: 'Bebas Neue', sans-serif; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--brown-light); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    /* Canvas Background */
     #water-canvas {
       position: fixed;
       top: 0;
@@ -57,33 +54,30 @@
       pointer-events: none;
     }
     
-    /* Honeycomb Pattern */
     .honeycomb-bg {
-	  background-image: url("logo.jpg");
-	  background-size: cover;
-	  background-position: center;
-	  background-repeat: no-repeat;
-	}
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath fill='%23ffb800' fill-opacity='0.03' d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100'/%3E%3Cpath fill='none' stroke='%23ffb800' stroke-opacity='0.05' d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34'/%3E%3C/svg%3E");
+    }
 
-    
     /* Navigation */
     .nav {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      padding: 1.25rem 2rem;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
       background: linear-gradient(to bottom, var(--bg), transparent);
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
     }
     
     .nav.scrolled {
-      background: rgba(26, 15, 10, 0.95);
+      background: rgba(26, 15, 10, 0.98);
       backdrop-filter: blur(10px);
+      padding: 0.75rem 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
     
     .nav-logo {
@@ -97,27 +91,16 @@
     .logo-icon {
       width: 48px;
       height: 48px;
-      background: var(--accent);
       border-radius: 12px;
+      overflow: hidden;
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      overflow: hidden;
+      flex-shrink: 0;
     }
     
-    .logo-icon::before {
-      content: '';
-      position: absolute;
-      inset: 2px;
-      background: var(--bg);
-      border-radius: 10px;
-    }
-    
-    .logo-icon svg {
-      position: relative;
-      z-index: 1;
-    }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
     
     .logo-text {
       font-family: 'Bebas Neue', sans-serif;
@@ -138,15 +121,16 @@
     
     .nav-links {
       display: flex;
-      gap: 2.5rem;
+      gap: 2rem;
       list-style: none;
+      align-items: center;
     }
     
     .nav-links a {
       color: var(--fg);
       text-decoration: none;
       font-weight: 500;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       position: relative;
       padding: 0.5rem 0;
       transition: color 0.3s ease;
@@ -163,28 +147,23 @@
       transition: width 0.3s ease;
     }
     
-    .nav-links a:hover {
-      color: var(--accent);
-    }
-    
-    .nav-links a:hover::after {
-      width: 100%;
-    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
     
     .nav-cta {
       background: var(--accent);
       color: var(--bg);
       padding: 0.75rem 1.5rem;
       border-radius: 8px;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.9rem;
       text-decoration: none;
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      cursor: pointer;
       border: none;
+      cursor: pointer;
       font-family: inherit;
     }
     
@@ -193,7 +172,7 @@
       transform: translateY(-2px);
       box-shadow: 0 10px 30px var(--glow);
     }
-    
+
     /* Hero Section */
     .hero {
       min-height: 100vh;
@@ -203,11 +182,7 @@
       padding: 8rem 2rem 4rem;
     }
     
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-    }
+    .hero-bg { position: absolute; inset: 0; overflow: hidden; z-index: -1; }
     
     .hero-gradient {
       position: absolute;
@@ -227,44 +202,13 @@
       animation: orbFloat 10s ease-in-out infinite;
     }
     
-    .hero-orb-1 {
-      width: 500px;
-      height: 500px;
-      background: var(--accent);
-      top: -200px;
-      right: -100px;
-      opacity: 0.15;
-    }
+    .hero-orb-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; right: -100px; opacity: 0.15; }
+    .hero-orb-2 { width: 400px; height: 400px; background: var(--brown-light); bottom: 10%; left: -100px; animation-delay: -5s; }
     
-    .hero-orb-2 {
-      width: 300px;
-      height: 300px;
-      background: var(--brown-light);
-      bottom: 10%;
-      left: -100px;
-      animation-delay: -5s;
-    }
+    @keyframes orbFloat { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -30px) scale(1.1); } }
     
-    @keyframes orbFloat {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(30px, -30px) scale(1.1); }
-    }
-    
-    .hero-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-      position: relative;
-      z-index: 10;
-    }
-    
-    .hero-text {
-      max-width: 650px;
-    }
+    .hero-content { max-width: 1400px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; position: relative; z-index: 10; }
+    .hero-text { max-width: 650px; }
     
     .hero-badge {
       display: inline-flex;
@@ -275,17 +219,12 @@
       padding: 0.5rem 1rem;
       border-radius: 100px;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--accent);
       margin-bottom: 1.5rem;
       opacity: 0;
       transform: translateY(20px);
       animation: fadeUp 0.8s ease 0.2s forwards;
-    }
-    
-    .hero-badge svg {
-      width: 16px;
-      height: 16px;
     }
     
     .hero-title {
@@ -299,47 +238,12 @@
       animation: fadeUp 0.8s ease 0.4s forwards;
     }
     
-    .hero-title .accent {
-      color: var(--accent);
-      position: relative;
-    }
+    .hero-title .accent { color: var(--accent); position: relative; }
+    .hero-slogan { font-size: 1.25rem; color: var(--muted); margin-bottom: 2rem; line-height: 1.6; opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease 0.6s forwards; }
     
-    .hero-title .accent::after {
-      content: '';
-      position: absolute;
-      bottom: 0.1em;
-      left: 0;
-      width: 100%;
-      height: 0.1em;
-      background: currentColor;
-      opacity: 0.3;
-    }
+    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease 0.8s forwards; }
     
-    .hero-slogan {
-      font-size: 1.25rem;
-      color: var(--muted);
-      margin-bottom: 2rem;
-      line-height: 1.6;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 0.8s ease 0.6s forwards;
-    }
-    
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 0.8s ease 0.8s forwards;
-    }
-    
-    @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
     
     .btn-primary {
       display: inline-flex;
@@ -357,19 +261,7 @@
       cursor: pointer;
     }
     
-    .btn-primary:hover {
-      background: var(--fg);
-      transform: translateY(-3px);
-      box-shadow: 0 15px 40px var(--glow);
-    }
-    
-    .btn-primary svg {
-      transition: transform 0.3s ease;
-    }
-    
-    .btn-primary:hover svg {
-      transform: translateX(4px);
-    }
+    .btn-primary:hover { background: var(--fg); transform: translateY(-3px); box-shadow: 0 15px 40px var(--glow); }
     
     .btn-secondary {
       display: inline-flex;
@@ -387,78 +279,16 @@
       cursor: pointer;
     }
     
-    .btn-secondary:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(255, 184, 0, 0.05);
-    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); background: rgba(255, 184, 0, 0.05); }
     
-    /* Hero Visual */
-    .hero-visual {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+    .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+    .car-showcase { position: relative; width: 100%; max-width: 550px; aspect-ratio: 4/3; }
+    .car-glow { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80%; height: 30%; background: radial-gradient(ellipse at center, var(--glow), transparent 70%); filter: blur(30px); }
     
-    .car-showcase {
-      position: relative;
-      width: 100%;
-      max-width: 550px;
-      aspect-ratio: 4/3;
-    }
-    
-    .car-glow {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 30%;
-      background: radial-gradient(ellipse at center, var(--glow), transparent 70%);
-      filter: blur(30px);
-    }
-    
-    .car-svg {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      z-index: 2;
-      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
-    }
-    
-    .water-drops {
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      pointer-events: none;
-    }
-    
-    .water-drop {
-      position: absolute;
-      background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      animation: dropFall 3s linear infinite;
-      opacity: 0;
-    }
-    
-    @keyframes dropFall {
-      0% {
-        transform: translateY(-20px);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(400px);
-        opacity: 0;
-      }
-    }
-    
+    .water-drops { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+    .water-drop { position: absolute; background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1)); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; animation: dropFall 3s linear infinite; opacity: 0; }
+    @keyframes dropFall { 0% { transform: translateY(-20px); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(400px); opacity: 0; } }
+
     .hero-stats {
       display: flex;
       gap: 2rem;
@@ -468,63 +298,19 @@
       animation: fadeUp 0.8s ease 1s forwards;
     }
     
-    .stat-item {
-      text-align: left;
-    }
-    
-    .stat-number {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem;
-      color: var(--accent);
-      line-height: 1;
-    }
-    
-    .stat-label {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: 0.25rem;
-    }
-    
-    /* Section Styles */
-    section {
-      position: relative;
-      z-index: 10;
-      padding: 6rem 2rem;
-    }
-    
-    .section-header {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto 4rem;
-    }
-    
-    .section-label {
-      display: inline-block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-    
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      line-height: 1.1;
-      margin-bottom: 1rem;
-    }
-    
-    .section-desc {
-      color: var(--muted);
-      font-size: 1.1rem;
-      line-height: 1.7;
-    }
-    
-    /* Services Section */
-    .services-section {
-      background: var(--bg-elevated);
-    }
+    .stat-item { text-align: left; }
+    .stat-number { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--accent); line-height: 1; }
+    .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* Sections */
+    section { position: relative; z-index: 10; padding: 6rem 2rem; }
+    .section-header { text-align: center; max-width: 800px; margin: 0 auto 4rem; }
+    .section-label { display: inline-block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-bottom: 1rem; }
+    .section-desc { color: var(--muted); font-size: 1.1rem; line-height: 1.7; }
+
+    /* Services Section (From Code 2) */
+    .services-section { background: var(--bg-elevated); }
     
     .services-grid {
       display: grid;
@@ -543,13 +329,6 @@
       transition: all 0.4s ease;
       position: relative;
       overflow: hidden;
-      opacity: 0;
-      transform: translateY(40px);
-    }
-    
-    .service-card.visible {
-      opacity: 1;
-      transform: translateY(0);
     }
     
     .service-card::before {
@@ -564,15 +343,8 @@
       transition: transform 0.4s ease;
     }
     
-    .service-card:hover::before {
-      transform: scaleX(1);
-    }
-    
-    .service-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-8px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-    }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card:hover { border-color: var(--accent); transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
     
     .service-icon {
       width: 80px;
@@ -587,29 +359,273 @@
       transition: all 0.3s ease;
     }
     
-    .service-card:hover .service-icon {
+    .service-card:hover .service-icon { background: var(--accent); color: var(--bg); transform: scale(1.1); }
+    
+    .service-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; margin-bottom: 0.75rem; letter-spacing: 0.02em; }
+    .service-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+    /* Pricing Section (From Code 1) */
+    .pricing-section { background: var(--bg); }
+    
+    .pricing-category { margin-bottom: 4rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
+    
+    .category-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--fg);
+      margin-bottom: 1.5rem;
+      padding-left: 1rem;
+      border-left: 4px solid var(--accent);
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .price-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    
+    .price-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+    
+    .price-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .price-name { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .price-vehicle { font-size: 0.8rem; color: var(--muted); background: rgba(255,255,255,0.05); padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-block; }
+    .price-amount { font-family: 'Bebas Neue', sans-serif; font-size: 1.75rem; color: var(--accent); }
+    .price-quoted { font-size: 0.9rem; color: var(--muted); font-style: italic; }
+    
+    .book-service-btn {
+      margin-top: auto;
+      padding-top: 1rem;
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+    
+    .book-service-btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+    /* Monthly Plans Section (From Code 1) */
+    .plans-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .plan-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .plan-card.featured { border-color: var(--accent); transform: scale(1.02); }
+    .plan-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(0,0,0,0.4); }
+    
+    .plan-badge {
+      position: absolute;
+      top: 1.5rem;
+      right: -2rem;
       background: var(--accent);
       color: var(--bg);
-      transform: scale(1.1);
+      padding: 0.5rem 2.5rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      transform: rotate(45deg);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
     
-    .service-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-      letter-spacing: 0.02em;
+    .promo-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: linear-gradient(135deg, #ff6b6b, #ee5253);
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(238, 82, 83, 0.4);
     }
     
-    .service-desc {
+    .plan-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 184, 0, 0.1);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+    }
+    
+    .plan-name { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .plan-subtitle { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+    
+    .plan-features { list-style: none; margin-bottom: 2rem; flex-grow: 1; }
+    .plan-features li { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem; font-size: 0.95rem; color: var(--fg); }
+    .plan-features li svg { flex-shrink: 0; color: var(--accent); margin-top: 2px; }
+    
+    .plan-price-selector { margin-bottom: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+    
+    .vehicle-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      background: var(--bg);
+      padding: 0.25rem;
+      border-radius: 8px;
+    }
+    
+    .v-tab {
+      flex: 1;
+      padding: 0.5rem;
+      background: transparent;
+      border: none;
       color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.6;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      font-size: 0.85rem;
+      font-family: inherit;
     }
     
-    /* Hours Section */
-    .hours-section {
-      position: relative;
+    .v-tab.active { background: var(--accent); color: var(--bg); }
+    
+    .price-display { text-align: center; }
+    .price-value { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--accent); line-height: 1; }
+    .price-period { color: var(--muted); font-size: 0.9rem; }
+
+    /* Contract Form (From Code 1) */
+    .contract-section { background: var(--bg-elevated); }
+    
+    .contract-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
     }
+    
+    .contract-header {
+      background: linear-gradient(135deg, var(--brown), var(--bg));
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .contract-header h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--accent); margin-bottom: 0.5rem; }
+    
+    .contract-body { padding: 2rem; }
+    
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group label { font-weight: 600; font-size: 0.9rem; color: var(--fg); }
+    .form-group label span { color: var(--danger); }
+    
+    .form-input, select.form-input, textarea.form-input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.875rem 1rem;
+      color: var(--fg);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .form-input:focus, select.form-input:focus, textarea.form-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255, 184, 0, 0.15);
+    }
+    
+    .terms-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    
+    .terms-box h4 { color: var(--fg); margin-top: 1rem; margin-bottom: 0.5rem; font-size: 0.95rem; }
+    .terms-box h4:first-child { margin-top: 0; }
+    
+    .checkbox-group { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .checkbox-group input[type="checkbox"] { margin-top: 4px; accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer; }
+    .checkbox-group label { font-size: 0.9rem; cursor: pointer; }
+
+    /* Pressure Wash Section (From Code 1) */
+    .pressure-section { position: relative; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-elevated) 100%); }
+    
+    .pressure-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto 3rem;
+    }
+    
+    .pressure-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .pressure-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+    
+    .pressure-icon {
+      width: 70px;
+      height: 70px;
+      background: rgba(255, 184, 0, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: var(--accent);
+    }
+    
+    .pressure-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .pressure-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
+
+    /* Hours Section (From Code 2) */
+    .hours-section { position: relative; }
     
     .hours-container {
       max-width: 900px;
@@ -620,9 +636,7 @@
       align-items: center;
     }
     
-    .hours-visual {
-      position: relative;
-    }
+    .hours-visual { position: relative; }
     
     .clock-container {
       width: 280px;
@@ -635,149 +649,36 @@
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
     
-    .clock-face {
-      position: absolute;
-      inset: 10px;
-      border-radius: 50%;
-      background: var(--bg);
-    }
+    .clock-face { position: absolute; inset: 10px; border-radius: 50%; background: var(--bg); }
+    .clock-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 12px; height: 12px; background: var(--accent); border-radius: 50%; z-index: 10; }
     
-    .clock-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 12px;
-      height: 12px;
-      background: var(--accent);
-      border-radius: 50%;
-      z-index: 10;
-    }
+    .clock-hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom center; border-radius: 4px; }
+    .hour-hand { width: 4px; height: 60px; background: var(--fg); margin-left: -2px; animation: rotateHour 43200s linear infinite; }
+    .minute-hand { width: 3px; height: 90px; background: var(--accent); margin-left: -1.5px; animation: rotateMinute 3600s linear infinite; }
     
-    .clock-hand {
-      position: absolute;
-      bottom: 50%;
-      left: 50%;
-      transform-origin: bottom center;
-      border-radius: 4px;
-    }
+    @keyframes rotateHour { to { transform: rotate(360deg); } }
+    @keyframes rotateMinute { to { transform: rotate(360deg); } }
     
-    .hour-hand {
-      width: 4px;
-      height: 60px;
-      background: var(--fg);
-      margin-left: -2px;
-      animation: rotateHour 43200s linear infinite;
-    }
+    .clock-markers { position: absolute; inset: 0; }
+    .clock-marker { position: absolute; width: 2px; height: 10px; background: var(--muted); left: 50%; margin-left: -1px; transform-origin: center 130px; }
+    .clock-marker.major { height: 15px; width: 3px; margin-left: -1.5px; background: var(--fg); }
     
-    .minute-hand {
-      width: 3px;
-      height: 90px;
-      background: var(--accent);
-      margin-left: -1.5px;
-      animation: rotateMinute 3600s linear infinite;
-    }
+    .hours-table { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .hours-table-header { background: var(--brown); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+    .hours-table-header svg { color: var(--accent); }
+    .hours-table-header span { font-weight: 600; font-size: 1.1rem; }
     
-    @keyframes rotateHour {
-      to { transform: rotate(360deg); }
-    }
-    
-    @keyframes rotateMinute {
-      to { transform: rotate(360deg); }
-    }
-    
-    .clock-markers {
-      position: absolute;
-      inset: 0;
-    }
-    
-    .clock-marker {
-      position: absolute;
-      width: 2px;
-      height: 10px;
-      background: var(--muted);
-      left: 50%;
-      margin-left: -1px;
-      transform-origin: center 130px;
-    }
-    
-    .clock-marker.major {
-      height: 15px;
-      width: 3px;
-      margin-left: -1.5px;
-      background: var(--fg);
-    }
-    
-    .hours-table {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-    
-    .hours-table-header {
-      background: var(--brown);
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    
-    .hours-table-header svg {
-      color: var(--accent);
-    }
-    
-    .hours-table-header span {
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-    
-    .hours-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid var(--border);
-      transition: background 0.3s ease;
-    }
-    
-    .hours-row:last-child {
-      border-bottom: none;
-    }
-    
-    .hours-row:hover {
-      background: rgba(255, 184, 0, 0.03);
-    }
-    
-    .hours-row.today {
-      background: rgba(255, 184, 0, 0.08);
-    }
-    
-    .hours-day {
-      font-weight: 500;
-    }
-    
-    .hours-time {
-      color: var(--muted);
-    }
-    
-    .hours-row.today .hours-time {
-      color: var(--accent);
-      font-weight: 600;
-    }
-    
-    .closed-badge {
-      background: rgba(255, 100, 100, 0.2);
-      color: #ff8080;
-      padding: 0.25rem 0.75rem;
-      border-radius: 100px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    
-    /* Contact Section */
-    .contact-section {
-      background: var(--bg-elevated);
-    }
+    .hours-row { display: flex; justify-content: space-between; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); transition: background 0.3s ease; }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row:hover { background: rgba(255, 184, 0, 0.03); }
+    .hours-row.today { background: rgba(255, 184, 0, 0.08); }
+    .hours-day { font-weight: 500; }
+    .hours-time { color: var(--muted); }
+    .hours-row.today .hours-time { color: var(--accent); font-weight: 600; }
+    .closed-badge { background: rgba(255, 100, 100, 0.2); color: #ff8080; padding: 0.25rem 0.75rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; }
+
+    /* Contact Section (From Code 2) */
+    .contact-section { background: var(--bg-elevated); }
     
     .contact-grid {
       display: grid;
@@ -787,11 +688,7 @@
       margin: 0 auto;
     }
     
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
     
     .contact-card {
       background: var(--card);
@@ -806,10 +703,7 @@
       color: inherit;
     }
     
-    .contact-card:hover {
-      border-color: var(--accent);
-      transform: translateX(8px);
-    }
+    .contact-card:hover { border-color: var(--accent); transform: translateX(8px); }
     
     .contact-icon {
       width: 56px;
@@ -824,39 +718,14 @@
       transition: all 0.3s ease;
     }
     
-    .contact-card:hover .contact-icon {
-      background: var(--accent);
-      color: var(--bg);
-    }
+    .contact-card:hover .contact-icon { background: var(--accent); color: var(--bg); }
     
-    .contact-details h4 {
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin-bottom: 0.25rem;
-    }
+    .contact-details h4 { font-weight: 600; font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .contact-details p { color: var(--muted); font-size: 0.95rem; }
+    .contact-details .sub { font-size: 0.8rem; color: var(--accent); margin-top: 0.25rem; }
     
-    .contact-details p {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-    
-    .contact-details .sub {
-      font-size: 0.8rem;
-      color: var(--accent);
-      margin-top: 0.25rem;
-    }
-    
-    /* Social Links */
-    .social-section {
-      text-align: center;
-    }
-    
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
+    .social-section { text-align: center; }
+    .social-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
     
     .social-link {
       display: flex;
@@ -872,79 +741,103 @@
       transition: all 0.3s ease;
     }
     
-    .social-link:hover {
-      border-color: var(--accent);
-      background: rgba(255, 184, 0, 0.05);
-      transform: translateY(-4px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-    
-    .social-link svg {
-      width: 24px;
-      height: 24px;
-      color: var(--accent);
-    }
-    
-    /* Footer */
-    footer {
-      background: var(--brown);
-      padding: 3rem 2rem;
-      position: relative;
-      z-index: 10;
-    }
-    
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 2rem;
-    }
-    
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    
-    .footer-logo {
-      width: 40px;
-      height: 40px;
-      background: var(--accent);
-      border-radius: 10px;
+    .social-link:hover { border-color: var(--accent); background: rgba(255, 184, 0, 0.05); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .social-link svg { width: 24px; height: 24px; color: var(--accent); }
+
+    /* Booking Overlay (Merged) */
+    .booking-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 5, 3, 0.92);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
     }
     
-    .footer-text {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.25rem;
-      letter-spacing: 0.05em;
+    .booking-overlay.active { opacity: 1; visibility: visible; }
+    
+    .booking-container {
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      transform: scale(0.9) translateY(30px);
+      transition: transform 0.4s ease;
+      position: relative;
     }
     
-    .footer-text span {
-      display: block;
-      font-size: 0.65rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      color: var(--accent);
+    .booking-overlay.active .booking-container { transform: scale(1) translateY(0); }
+    
+    .booking-header {
+      background: linear-gradient(135deg, var(--brown), var(--bg));
+      padding: 2rem;
+      border-radius: 24px 24px 0 0;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
     }
     
-    .footer-copy {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
+    .booking-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--accent); margin-bottom: 0.5rem; }
+    .booking-header p { color: var(--muted); font-size: 0.95rem; }
     
-    .footer-slogan {
-      font-style: italic;
-      color: var(--muted);
-      font-size: 0.9rem;
+    .close-booking {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      border-radius: 50%;
+      color: var(--fg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
     }
+    .close-booking:hover { background: var(--danger); }
     
+    .booking-form { padding: 2rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    
+    .submit-booking {
+      background: var(--accent);
+      color: var(--bg);
+      padding: 1.25rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    .submit-booking:hover { background: var(--fg); transform: translateY(-2px); box-shadow: 0 10px 30px var(--glow); }
+
+    /* Footer */
+    footer { background: var(--brown); padding: 3rem 2rem; position: relative; z-index: 10; }
+    .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+    .footer-brand { display: flex; align-items: center; gap: 1rem; }
+    .footer-logo { width: 40px; height: 40px; border-radius: 8px; overflow: hidden; background: transparent; }
+    .footer-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .footer-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; letter-spacing: 0.05em; }
+    .footer-text span { display: block; font-size: 0.65rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; letter-spacing: 0.2em; color: var(--accent); }
+    .footer-copy { color: var(--muted); font-size: 0.9rem; }
+    .footer-slogan { font-style: italic; color: var(--muted); font-size: 0.9rem; }
+
     /* Scroll to top */
     .scroll-top {
       position: fixed;
@@ -966,341 +859,44 @@
       transition: all 0.3s ease;
       z-index: 1000;
     }
-    
-    .scroll-top.visible {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-    
-    .scroll-top:hover {
-      background: var(--fg);
-      transform: translateY(-4px);
-    }
-    
+    .scroll-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+    .scroll-top:hover { background: var(--fg); transform: translateY(-4px); }
+
     /* Mobile Menu */
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--fg);
-      cursor: pointer;
-      padding: 0.5rem;
-    }
-    
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 999;
-      padding: 6rem 2rem 2rem;
-      flex-direction: column;
-      gap: 2rem;
-    }
-    
-    .mobile-menu.active {
-      display: flex;
-    }
-    
-    .mobile-menu a, .mobile-menu button {
-      color: var(--fg);
-      text-decoration: none;
-      font-size: 1.5rem;
-      font-weight: 600;
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--border);
-      background: none;
-      border-left: none;
-      border-right: none;
-      border-top: none;
-      text-align: left;
-      cursor: pointer;
-      font-family: inherit;
-    }
-    
-    /* Booking Overlay Styles */
-    .booking-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 5, 3, 0.9);
-      backdrop-filter: blur(10px);
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.4s ease;
-    }
-    
-    .booking-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .booking-container {
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      transform: scale(0.9) translateY(30px);
-      transition: transform 0.4s ease;
-      position: relative;
-    }
-    
-    .booking-overlay.active .booking-container {
-      transform: scale(1) translateY(0);
-    }
-    
-    .booking-header {
-      background: linear-gradient(135deg, var(--brown), var(--bg));
-      padding: 2rem;
-      border-radius: 24px 24px 0 0;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .booking-header h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-    
-    .booking-header p {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-    
-    .close-booking {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      width: 40px;
-      height: 40px;
-      background: rgba(255,255,255,0.1);
-      border: none;
-      border-radius: 50%;
-      color: var(--fg);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-    
-    .close-booking:hover {
-      background: var(--danger);
-    }
-    
-    .booking-form {
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    
-    .form-group label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--fg);
-    }
-    
-    .form-group label span {
-      color: var(--danger);
-    }
-    
-    .form-input {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem;
-      color: var(--fg);
-      font-size: 1rem;
-      font-family: inherit;
-      transition: all 0.3s ease;
-    }
-    
-    .form-input:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(255, 184, 0, 0.15);
-    }
-    
-    .form-input::placeholder {
-      color: var(--muted);
-    }
-    
-    select.form-input {
-      cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23a89080' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 1rem center;
-    }
-    
-    textarea.form-input {
-      min-height: 100px;
-      resize: vertical;
-    }
-    
-    .submit-booking {
-      background: var(--accent);
-      color: var(--bg);
-      padding: 1.25rem;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      transition: all 0.3s ease;
-      font-family: inherit;
-    }
-    
-    .submit-booking:hover {
-      background: var(--fg);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px var(--glow);
-    }
-    
-    .form-note {
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: 0.5rem;
-    }
-    
-    .form-note svg {
-      width: 16px;
-      height: 16px;
-      display: inline;
-      vertical-align: middle;
-      margin-right: 4px;
-    }
+    .mobile-menu-btn { display: none; background: none; border: none; color: var(--fg); cursor: pointer; padding: 0.5rem; }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 999; padding: 6rem 2rem 2rem; flex-direction: column; gap: 1rem; }
+    .mobile-menu.active { display: flex; }
+    .mobile-menu a, .mobile-menu button { color: var(--fg); text-decoration: none; font-size: 1.25rem; font-weight: 600; padding: 1rem; border-bottom: 1px solid var(--border); background: none; border-left: none; border-right: none; border-top: none; text-align: left; cursor: pointer; font-family: inherit; width: 100%; }
 
     /* Reveal animations */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.6s ease;
-    }
-    
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-    
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
     /* Responsive */
     @media (max-width: 1024px) {
-      .hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      
-      .hero-text {
-        max-width: 100%;
-      }
-      
-      .hero-buttons {
-        justify-content: center;
-      }
-      
-      .hero-stats {
-        justify-content: center;
-      }
-      
-      .hero-visual {
-        order: -1;
-      }
-      
-      .car-showcase {
-        max-width: 400px;
-      }
-      
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      .hours-container {
-        grid-template-columns: 1fr;
-      }
-      
-      .hours-visual {
-        order: -1;
-      }
-      
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
+      .hero-content { grid-template-columns: 1fr; text-align: center; }
+      .hero-text { max-width: 100%; }
+      .hero-buttons { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { order: -1; }
+      .car-showcase { max-width: 400px; margin: 0 auto; }
+      .form-row { grid-template-columns: 1fr; }
+      .pressure-grid { grid-template-columns: 1fr; }
+      .plan-card.featured { transform: scale(1); }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .hours-container { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
     }
     
     @media (max-width: 768px) {
-      .nav-links, .nav-cta-desktop {
-        display: none;
-      }
-      
-      .mobile-menu-btn {
-        display: block;
-      }
-      
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .hero {
-        padding: 7rem 1.5rem 3rem;
-      }
-      
-      section {
-        padding: 4rem 1.5rem;
-      }
-      
-      .footer-content {
-        flex-direction: column;
-        text-align: center;
-      }
-      
-      .social-links {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .booking-container {
-        border-radius: 16px;
-      }
-      
-      .booking-header {
-        border-radius: 16px 16px 0 0;
-        padding: 1.5rem;
-      }
-      
-      .booking-form {
-        padding: 1.5rem;
-      }
+      .nav-links, .nav-cta-desktop { display: none; }
+      .mobile-menu-btn { display: block; }
+      section { padding: 4rem 1.5rem; }
+      .footer-content { flex-direction: column; text-align: center; }
+      .plans-container { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .social-links { flex-direction: column; align-items: center; }
     }
   </style>
 </head>
@@ -1312,11 +908,7 @@
   <nav class="nav" id="nav">
     <a href="#" class="nav-logo">
       <div class="logo-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-          <path d="M2 17l10 5 10-5"/>
-          <path d="M2 12l10 5 10-5"/>
-        </svg>
+        <img src="logo.jpeg" alt="Jaguar Jet Wash Logo">
       </div>
       <div class="logo-text">
         JAGUAR
@@ -1325,112 +917,39 @@
     </a>
     
     <ul class="nav-links">
+      <li><a href="#hero">Home</a></li>
       <li><a href="#services">Services</a></li>
+      <li><a href="#detailing">Pricing</a></li>
+      <li><a href="#monthly-plans">Monthly Plans</a></li>
+      <li><a href="#pressure">Pressure Wash</a></li>
       <li><a href="#hours">Hours</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     
-    <button class="nav-cta nav-cta-desktop book-now-btn" aria-label="Book now">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-      </svg>
+    <button class="nav-cta nav-cta-desktop book-now-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
       Book Now
     </button>
     
     <button class="mobile-menu-btn" id="menu-btn" aria-label="Open menu">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <line x1="3" y1="12" x2="21" y2="12"/>
-        <line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
   </nav>
   
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobile-menu">
+    <a href="#hero">Home</a>
     <a href="#services">Services</a>
+    <a href="#detailing">Pricing</a>
+    <a href="#monthly-plans">Monthly Plans</a>
+    <a href="#pressure">Pressure Wash</a>
     <a href="#hours">Hours</a>
     <a href="#contact">Contact</a>
-    <button class="book-now-btn">Book on WhatsApp</button>
+    <button class="book-now-btn">Book Now</button>
   </div>
-  
-  <!-- Booking Overlay -->
-  <div class="booking-overlay" id="booking-overlay">
-    <div class="booking-container">
-      <div class="booking-header">
-        <button class="close-booking" id="close-booking" aria-label="Close booking form">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 6L6 18M6 6l12 12"/>
-          </svg>
-        </button>
-        <h2>Book Your Wash</h2>
-        <p>Fill in the details below and we'll get back to you instantly.</p>
-      </div>
-      
-      <form class="booking-form" id="booking-form">
-        <div class="form-group">
-          <label for="name">Full Name <span>*</span></label>
-          <input type="text" id="name" name="name" class="form-input" placeholder="John Doe" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="phone">Phone Number <span>*</span></label>
-          <input type="tel" id="phone" name="phone" class="form-input" placeholder="+592 123 4567" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="vehicle">Vehicle Type <span>*</span></label>
-          <select id="vehicle" name="vehicle" class="form-input" required>
-            <option value="" disabled selected>Select your vehicle type</option>
-            <option value="Sedan">Sedan</option>
-            <option value="SUV">SUV</option>
-            <option value="Truck/Pickup">Truck / Pickup</option>
-            <option value="Van">Van</option>
-            <option value="Motorcycle">Motorcycle</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="service">Service Required <span>*</span></label>
-          <select id="service" name="service" class="form-input" required>
-            <option value="" disabled selected>Select a service</option>
-            <option value="Steam Cleaning">Steam Cleaning</option>
-            <option value="Headlight Restoration">Headlight Restoration</option>
-            <option value="Buff & Polishing">Buff & Polishing</option>
-            <option value="Ceramic Coating">Ceramic Coating</option>
-            <option value="Full Detail Package">Full Detail Package</option>
-            <option value="Other">Other / Not Sure</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="date">Preferred Date</label>
-          <input type="date" id="date" name="date" class="form-input">
-        </div>
-        
-        <div class="form-group">
-          <label for="message">Additional Notes</label>
-          <textarea id="message" name="message" class="form-input" placeholder="Any specific requests or details about your vehicle's condition..."></textarea>
-        </div>
-        
-        <button type="submit" class="submit-booking">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-          </svg>
-          Send via WhatsApp
-        </button>
-        
-        <p class="form-note">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Your information is sent directly to our secure WhatsApp.
-        </p>
-      </form>
-    </div>
-  </div>
-  
+
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="hero" id="hero">
     <div class="hero-bg">
       <div class="hero-orb hero-orb-1"></div>
       <div class="hero-orb hero-orb-2"></div>
@@ -1440,32 +959,18 @@
     <div class="hero-content">
       <div class="hero-text">
         <div class="hero-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
-          Premium Detailing Services
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Premium Auto Care
         </div>
         
-        <h1 class="hero-title font-display">
-          Taming The <span class="accent">Grime</span>, One Wash At A Time
-        </h1>
-        
-        <p class="hero-slogan">
-          Professional car detailing that brings out the best in your vehicle. From steam cleaning to ceramic coating, we deliver showroom-quality results every time.
-        </p>
+        <h1 class="hero-title font-display">Taming The <span class="accent">Grime</span>, One Wash At A Time</h1>
+        <p class="hero-slogan">Professional detailing, monthly protection plans, and pressure washing services. We bring showroom quality to your driveway.</p>
         
         <div class="hero-buttons">
-          <button class="btn-primary book-now-btn">
-            Book Now
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </button>
-          <a href="#services" class="btn-secondary">
-            View Services
-          </a>
+          <a href="#detailing" class="btn-primary">View Services</a>
+          <a href="#monthly-plans" class="btn-secondary">Monthly Plans</a>
         </div>
-        
+
         <div class="hero-stats">
           <div class="stat-item">
             <div class="stat-number">100+</div>
@@ -1476,8 +981,8 @@
             <div class="stat-label">Days Open</div>
           </div>
           <div class="stat-item">
-            <div class="stat-number">4</div>
-            <div class="stat-label">Premium Services</div>
+            <div class="stat-number">4.9</div>
+            <div class="stat-label">Star Rating</div>
           </div>
         </div>
       </div>
@@ -1485,51 +990,31 @@
       <div class="hero-visual">
         <div class="car-showcase">
           <div class="car-glow"></div>
-          <svg class="car-svg" viewBox="0 0 400 250" fill="none">
-            <!-- Car Body -->
+          <svg class="car-svg" viewBox="0 0 400 250" fill="none" style="width:100%;height:100%;filter:drop-shadow(0 20px 40px rgba(0,0,0,0.5));">
             <path d="M50 160 L80 120 L150 100 L280 100 L340 120 L370 160 L370 180 L50 180 Z" fill="url(#carGradient)" stroke="#ffb800" stroke-width="2"/>
-            <!-- Windows -->
             <path d="M95 125 L145 108 L200 108 L200 125 Z" fill="#1a0f0a" stroke="#ffb800" stroke-width="1"/>
             <path d="M210 108 L270 108 L315 125 L210 125 Z" fill="#1a0f0a" stroke="#ffb800" stroke-width="1"/>
-            <!-- Wheels -->
             <circle cx="110" cy="185" r="35" fill="#2d1a12" stroke="#ffb800" stroke-width="3"/>
             <circle cx="110" cy="185" r="20" fill="#1a0f0a"/>
             <circle cx="110" cy="185" r="8" fill="#ffb800"/>
             <circle cx="300" cy="185" r="35" fill="#2d1a12" stroke="#ffb800" stroke-width="3"/>
             <circle cx="300" cy="185" r="20" fill="#1a0f0a"/>
             <circle cx="300" cy="185" r="8" fill="#ffb800"/>
-            <!-- Headlights -->
             <ellipse cx="360" cy="155" rx="8" ry="12" fill="#ffb800"/>
             <ellipse cx="60" cy="155" rx="8" ry="12" fill="#ff4444"/>
-            <!-- Details -->
-            <path d="M150 100 L150 80 L180 70 L220 70 L250 80 L250 100" fill="none" stroke="#ffb800" stroke-width="1.5"/>
-            <line x1="200" y1="100" x2="200" y2="180" stroke="#ffb800" stroke-width="0.5" opacity="0.5"/>
-            <!-- Water droplets -->
-            <circle cx="120" cy="130" r="3" fill="#ffb800" opacity="0.6"/>
-            <circle cx="180" cy="115" r="2" fill="#ffb800" opacity="0.4"/>
-            <circle cx="250" cy="125" r="2.5" fill="#ffb800" opacity="0.5"/>
-            <circle cx="320" cy="145" r="2" fill="#ffb800" opacity="0.4"/>
-            <defs>
-              <linearGradient id="carGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#3d2314"/>
-                <stop offset="50%" style="stop-color:#5a3825"/>
-                <stop offset="100%" style="stop-color:#3d2314"/>
-              </linearGradient>
-            </defs>
+            <defs><linearGradient id="carGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#3d2314"/><stop offset="50%" style="stop-color:#5a3825"/><stop offset="100%" style="stop-color:#3d2314"/></linearGradient></defs>
           </svg>
           <div class="water-drops">
             <div class="water-drop" style="left: 20%; width: 8px; height: 12px; animation-delay: 0s;"></div>
-            <div class="water-drop" style="left: 35%; width: 6px; height: 9px; animation-delay: 0.5s;"></div>
             <div class="water-drop" style="left: 50%; width: 10px; height: 15px; animation-delay: 1s;"></div>
-            <div class="water-drop" style="left: 65%; width: 7px; height: 11px; animation-delay: 1.5s;"></div>
             <div class="water-drop" style="left: 80%; width: 5px; height: 8px; animation-delay: 2s;"></div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  
-  <!-- Services Section -->
+
+  <!-- SERVICES SECTION (CODE 2) -->
   <section class="services-section" id="services">
     <div class="section-header">
       <span class="section-label reveal">Our Services</span>
@@ -1588,8 +1073,387 @@
       </div>
     </div>
   </section>
-  
-  <!-- Hours Section -->
+
+  <!-- DETAILING SERVICES PRICING (CODE 1) -->
+  <section class="pricing-section" id="detailing">
+    <div class="section-header">
+      <span class="section-label">Services</span>
+      <h2 class="section-title">Auto Detailing Prices</h2>
+      <p class="section-desc">Transparent pricing for every vehicle type. From standard cars to large vans, we have you covered.</p>
+    </div>
+
+    <!-- Exterior Detail -->
+    <div class="pricing-category">
+      <h3 class="category-title">Exterior Detail</h3>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Standard Car</div><span class="price-vehicle">Sedan / Coupe</span></div>
+            <div class="price-amount">$35,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Exterior Detail', 'Standard Car', '$35,000')">Book Now</button>
+        </div>
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">SUV / Crossover</div><span class="price-vehicle">Mid to Large SUV</span></div>
+            <div class="price-amount">$45,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Exterior Detail', 'SUV / Crossover', '$45,000')">Book Now</button>
+        </div>
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Pickup Truck</div><span class="price-vehicle">Single / Double Cab</span></div>
+            <div class="price-amount">$50,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Exterior Detail', 'Pickup Truck', '$50,000')">Book Now</button>
+        </div>
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Bus / Large Van</div><span class="price-vehicle">Commercial Size</span></div>
+            <div class="price-quoted">Quoted</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Exterior Detail', 'Bus / Large Van', 'Quoted')">Get Quote</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interior Detail -->
+    <div class="pricing-category">
+      <h3 class="category-title">Interior Detail</h3>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Standard Car</div><span class="price-vehicle">Sedan / Coupe</span></div>
+            <div class="price-amount">$25,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Interior Detail', 'Standard Car', '$25,000')">Book Now</button>
+        </div>
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">SUV / Crossover</div><span class="price-vehicle">Mid to Large SUV</span></div>
+            <div class="price-amount">$32,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Interior Detail', 'SUV / Crossover', '$32,000')">Book Now</button>
+        </div>
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Pickup Truck</div><span class="price-vehicle">Single / Double Cab</span></div>
+            <div class="price-amount">$35,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Interior Detail', 'Pickup Truck', '$35,000')">Book Now</button>
+        </div>
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Bus / Large Van</div><span class="price-vehicle">Commercial Size</span></div>
+            <div class="price-quoted">Quoted</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Interior Detail', 'Bus / Large Van', 'Quoted')">Get Quote</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full Detail -->
+    <div class="pricing-category">
+      <h3 class="category-title">Full Detail (Interior + Exterior)</h3>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Standard Car</div><span class="price-vehicle">Complete Package</span></div>
+            <div class="price-amount">$55,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Full Detail', 'Standard Car', '$55,000')">Book Now</button>
+        </div>
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">SUV / Crossover</div><span class="price-vehicle">Complete Package</span></div>
+            <div class="price-amount">$70,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Full Detail', 'SUV / Crossover', '$70,000')">Book Now</button>
+        </div>
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Pickup Truck</div><span class="price-vehicle">Complete Package</span></div>
+            <div class="price-amount">$80,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Full Detail', 'Pickup Truck', '$80,000')">Book Now</button>
+        </div>
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Bus / Large Van</div><span class="price-vehicle">Complete Package</span></div>
+            <div class="price-quoted">Quoted</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Full Detail', 'Bus / Large Van', 'Quoted')">Get Quote</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ceramic & Extraction -->
+    <div class="pricing-category">
+      <h3 class="category-title">Ceramic Protection & Extraction</h3>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Ceramic Wax</div><span class="price-vehicle">Car</span></div>
+            <div class="price-amount">$30,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Ceramic Wax', 'Car', '$30,000')">Book Now</button>
+        </div>
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Ceramic Wax</div><span class="price-vehicle">SUV</span></div>
+            <div class="price-amount">$40,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Ceramic Wax', 'SUV', '$40,000')">Book Now</button>
+        </div>
+         <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Ceramic Coating</div><span class="price-vehicle">Car (Pro)</span></div>
+            <div class="price-amount">$75,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Ceramic Coating', 'Car', '$75,000')">Book Now</button>
+        </div>
+        <div class="price-card">
+          <div class="price-card-header">
+            <div><div class="price-name">Seat Extraction</div><span class="price-vehicle">Car</span></div>
+            <div class="price-amount">$10,000</div>
+          </div>
+          <button class="book-service-btn" onclick="openBooking('Seat Extraction', 'Car', '$10,000')">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MONTHLY PLANS SECTION (CODE 1) -->
+  <section id="monthly-plans">
+    <div class="section-header">
+      <span class="section-label">Subscriptions</span>
+      <h2 class="section-title">Monthly Detailing Plans</h2>
+      <p class="section-desc">More value. Less hassle. Priority service. Lock in your schedule today.</p>
+    </div>
+
+    <div class="plans-container">
+      <!-- STANDARD PLAN -->
+      <div class="plan-card">
+        <div class="promo-badge">15% OFF FIRST 3 MO</div>
+        <div class="plan-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h3 class="plan-name">Standard Care</h3>
+        <p class="plan-subtitle">Perfect for regular maintenance</p>
+        
+        <ul class="plan-features">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Full Interior Detail (Monthly)</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Full Exterior Detail (Monthly)</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Tire & Rim Shine</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> FREE Interior Scent</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> FREE Quick Touch-Up</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Priority Booking</li>
+        </ul>
+
+        <div class="plan-price-selector">
+          <div class="vehicle-tabs">
+            <button class="v-tab active" onclick="updatePrice(this, 'standard', 'car')">Car</button>
+            <button class="v-tab" onclick="updatePrice(this, 'standard', 'suv')">SUV</button>
+            <button class="v-tab" onclick="updatePrice(this, 'standard', 'pickup')">Pickup</button>
+			<button class="v-tab" onclick="updatePrice(this, 'standard', 'other')">Others</button>
+          </div>
+          <div class="price-display">
+            <div class="price-value" id="standard-price">$50,000</div>
+            <div class="price-period">per month</div>
+          </div>
+        </div>
+
+        <button class="btn-primary" style="width:100%; justify-content:center;" onclick="openContract('Standard Care')">Start Subscription</button>
+      </div>
+
+      <!-- PREMIUM PLAN -->
+      <div class="plan-card featured">
+        <div class="plan-badge">Best Value</div>
+        <div class="promo-badge">20% OFF FIRST 3 MO</div>
+        <div class="plan-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3 class="plan-name">Premium Protection</h3>
+        <p class="plan-subtitle">Showroom-ready, always</p>
+        
+        <ul class="plan-features">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Full Detail 2× Per Month</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> FREE Ceramic Wax Monthly</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Tire & Rim Shine</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Interior Protection</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> FREE Emergency Touch-Up</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> VIP Priority Booking</li>
+        </ul>
+
+        <div class="plan-price-selector">
+          <div class="vehicle-tabs">
+            <button class="v-tab active" onclick="updatePrice(this, 'premium', 'car')">Car</button>
+            <button class="v-tab" onclick="updatePrice(this, 'premium', 'suv')">SUV</button>
+            <button class="v-tab" onclick="updatePrice(this, 'premium', 'pickup')">Pickup</button>
+			<button class="v-tab" onclick="updatePrice(this, 'premium', 'other')">Others</button>
+          </div>
+          <div class="price-display">
+            <div class="price-value" id="premium-price">$90,000</div>
+            <div class="price-period">per month</div>
+          </div>
+        </div>
+
+        <button class="btn-primary" style="width:100%; justify-content:center;" onclick="openContract('Premium Protection')">Start Subscription</button>
+      </div>
+    </div>
+
+    <!-- CONTRACT SECTION -->
+    <div class="contract-section" id="contract" style="margin-top: 4rem; display:none;">
+      <div class="contract-container">
+        <div class="contract-header">
+          <h3>Monthly Auto Detailing Agreement</h3>
+
+		  <p>This agreement is between Jaguar Jet Wash and the Customer</p>
+		  <p>for monthly auto detailing services.</p>
+        </div>
+        
+        <form class="contract-body" id="contract-form">
+          <div class="form-group">
+            <label>Selected Plan</label>
+            <input type="text" id="contract-plan" class="form-input" readonly style="background: var(--card); font-weight: 700; color: var(--accent);">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="c-name">Full Name <span>*</span></label>
+              <input type="text" id="c-name" class="form-input" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="c-phone">Phone Number <span>*</span></label>
+              <input type="tel" id="c-phone" class="form-input" placeholder="+592 123 4567" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="c-vehicle">Vehicle Type <span>*</span></label>
+              <select id="c-vehicle" class="form-input" required>
+                <option value="" disabled selected>Select vehicle</option>
+                <option value="Car">Standard Car</option>
+                <option value="SUV">SUV / Crossover</option>
+                <option value="Pickup">Pickup Truck</option>
+				<option value="Others">Others</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="c-plate">Vehicle Plate Number <span>*</span></label>
+              <input type="text" id="c-plate" class="form-input" placeholder="PAB 1234" required>
+            </div>
+          </div>
+		  
+		  <div class="form-group" id="other-vehicle-input" style="display:none;">
+			  <label for="c-vehicle-other">Specify Vehicle Type <span>*</span></label>
+			  <input type="text" id="c-vehicle-other" class="form-input" placeholder="e.g., Motorcycle, ATV, etc.">
+		  </div>
+		  
+
+          <div class="terms-box">
+            <h4>1. Service Plan</h4>
+			<ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+			  <li>Customer has selected the plan indicated above.</li>
+			  <li>Services are provided as outlined in the selected plan description.</li> 
+			  <li>All services are scheduled by appointment only.</li>
+            </ul>
+			
+			
+			<h4>2. Service Frequency</h4>
+			<ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+              <li>Services will be provided as outlined in the selected plan.</li>
+			  <li>All services are scheduled by appointment only.</li>
+			</ul>
+			
+            <h4>3. Payment Terms</h4>
+			<ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+              <li>Monthly fee must be paid in advance.</li> 
+			  <li>Payment is due on or before the start of each month.</li>
+			  <li>No refunds for missed or unused visits.</li>
+            </ul>
+			
+            <h4>4. Term of Agreement</h4>
+			<ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+              <li>Minimum commitment: 3 months.</li>
+			  <li>Agreement renews monthly unless cancelled with 7 days notice.</li>
+            </ul>
+			
+            <h4>5. Conditions</h4>
+            <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+              <li>Plan covers one vehicle only.</li>
+              <li>Excessive dirt, pet hair, sand, or stains may result in additional charges.</li>
+              <li>Missed appointments do not roll over.</li>
+              <li>Jaguar Jet Wash is not responsible for pre-existing damage.</li>
+            </ul>
+            
+			
+            <h4>6. Cancellation</h4>
+			<ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+              <li>Either party may cancel after the minimum term with written notice.</li>
+			</ul>
+          </div>
+
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="terms-check" required>
+            <label for="terms-check">I agree to the terms and conditions above. By checking this box, I acknowledge this as my digital signature.</label>
+          </div>
+
+          <button type="submit" class="submit-booking">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+            Send Agreement via WhatsApp
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESSURE WASHING SECTION (CODE 1) -->
+  <section class="pressure-section" id="pressure">
+    <div class="section-header">
+      <span class="section-label">Power Washing</span>
+      <h2 class="section-title">Pressure Washing Services</h2>
+      <p class="section-desc">Bring your property back to life with our professional pressure washing solutions.</p>
+    </div>
+
+    <div class="pressure-grid">
+      <div class="pressure-card">
+        <div class="pressure-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3 class="pressure-name">Driveways & Walkways</h3>
+        <p class="pressure-desc">Remove stubborn oil stains, tire marks, mold, and mildew from concrete and pavers.</p>
+      </div>
+      
+      <div class="pressure-card">
+        <div class="pressure-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3 class="pressure-name">Roof & Soffit Cleaning</h3>
+        <p class="pressure-desc">Safe, low-pressure washing to eliminate black streaks, algae, and lichen growth.</p>
+      </div>
+      
+      <div class="pressure-card">
+        <div class="pressure-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <h3 class="pressure-name">Fences & Decks</h3>
+        <p class="pressure-desc">Restore the natural beauty of wood and composite decking and fencing.</p>
+      </div>
+    </div>
+
+    <div style="text-align: center;">
+      <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 1.1rem;">All pressure washing services are custom quoted based on square footage and surface type.</p>
+      <button class="btn-primary book-now-btn" onclick="openBooking('Pressure Washing', 'Quoted', 'Quote Request')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call Now for Free Quote
+      </button>
+    </div>
+  </section>
+
+  <!-- HOURS SECTION (CODE 2) -->
   <section class="hours-section" id="hours">
     <div class="section-header">
       <span class="section-label reveal">Business Hours</span>
@@ -1649,8 +1513,8 @@
       </div>
     </div>
   </section>
-  
-  <!-- Contact Section -->
+
+  <!-- CONTACT SECTION (CODE 2) -->
   <section class="contact-section" id="contact">
     <div class="section-header">
       <span class="section-label reveal">Get In Touch</span>
@@ -1729,7 +1593,7 @@
           
           <a href="https://www.instagram.com/jaguarjetwash?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="social-link" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072C2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
             </svg>
             Instagram
           </a>
@@ -1744,121 +1608,112 @@
       </div>
     </div>
   </section>
-  
-  <!-- Footer -->
+
+  <!-- FOOTER -->
   <footer>
     <div class="footer-content">
       <div class="footer-brand">
-        <div class="footer-logo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a0f0a" stroke-width="2.5">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5"/>
-            <path d="M2 12l10 5 10-5"/>
-          </svg>
-        </div>
-        <div class="footer-text">
-          JAGUAR
-          <span>Jet Wash</span>
-        </div>
+        <div class="footer-logo"><img src="logo.jpeg" alt="Logo"></div>
+        <div class="footer-text">JAGUAR<span>Jet Wash</span></div>
       </div>
-      
       <p class="footer-slogan">"Taming the grime, one wash at a time!"</p>
-      
       <p class="footer-copy">2025 Jaguar Jet Wash. All rights reserved.</p>
     </div>
   </footer>
-  
-  <!-- Scroll to Top -->
-  <button class="scroll-top" id="scroll-top" aria-label="Scroll to top">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <path d="M18 15l-6-6-6 6"/>
-    </svg>
-  </button>
+
+  <!-- SCROLL TO TOP -->
+  <button class="scroll-top" id="scroll-top"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg></button>
+
+  <!-- BOOKING OVERLAY (MERGED) -->
+  <div class="booking-overlay" id="booking-overlay">
+    <div class="booking-container">
+      <div class="booking-header">
+        <button class="close-booking" id="close-booking"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+        <h2 id="booking-title">Book Service</h2>
+        <p id="booking-subtitle">Complete the form below to request your appointment.</p>
+      </div>
+      <form class="booking-form" id="booking-form">
+        <input type="hidden" id="b-service">
+        <input type="hidden" id="b-vehicle">
+        <input type="hidden" id="b-price">
+        
+        <div class="form-group">
+          <label>Your Name <span>*</span></label>
+          <input type="text" id="b-name" class="form-input" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label>Phone Number <span>*</span></label>
+          <input type="tel" id="b-phone" class="form-input" placeholder="+592 123 4567" required>
+        </div>
+        <div class="form-group">
+          <label>Service Type</label>
+          <select id="b-service-select" class="form-input">
+             <option value="" disabled selected>Select service</option>
+             <option value="Exterior Detail">Exterior Detail</option>
+             <option value="Interior Detail">Interior Detail</option>
+             <option value="Full Detail">Full Detail</option>
+             <option value="Ceramic Coating">Ceramic Coating</option>
+             <option value="Pressure Washing">Pressure Washing</option>
+             <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Vehicle Type</label>
+           <select id="b-vehicle-select" class="form-input">
+             <option value="" disabled selected>Select vehicle</option>
+             <option value="Standard Car">Standard Car</option>
+             <option value="SUV / Crossover">SUV / Crossover</option>
+             <option value="Pickup Truck">Pickup Truck</option>
+             <option value="Bus / Large Van">Bus / Large Van</option>
+			 <option value="Others">Others</option>
+           </select>
+        </div>
+        <div class="form-group">
+          <label>Preferred Date</label>
+          <input type="date" id="b-date" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="b-notes" class="form-input" rows="3" placeholder="Any specific requests?"></textarea>
+        </div>
+        <button type="submit" class="submit-booking">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+          Send via WhatsApp
+        </button>
+      </form>
+    </div>
+  </div>
 
   <script>
-    // ============================================
-    // INITIALIZATION & CONFIGURATION
-    // ============================================
-    
+    // --- Globals ---
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const whatsappNumber = '5927386158';
+
+    // --- Water Canvas ---
+    const canvas = document.getElementById('water-canvas');
+    const ctx = canvas.getContext('2d');
+    let drops = [];
     
-    // ============================================
-    // WATER PARTICLE CANVAS
-    // ============================================
+    function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+    function createDrop() { return { x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 3 + 1, s: Math.random() * 0.5 + 0.2, o: Math.random() * 0.3 + 0.1, w: Math.random() * Math.PI * 2 }; }
     
-    const waterCanvas = document.getElementById('water-canvas');
-    const waterCtx = waterCanvas.getContext('2d');
-    
-    let waterDrops = [];
-    const maxDrops = 60;
-    
-    function resizeWaterCanvas() {
-      waterCanvas.width = window.innerWidth;
-      waterCanvas.height = window.innerHeight;
-    }
-    
-    function createWaterDrop() {
-      return {
-        x: Math.random() * waterCanvas.width,
-        y: Math.random() * waterCanvas.height,
-        radius: Math.random() * 3 + 1,
-        speed: Math.random() * 0.5 + 0.2,
-        opacity: Math.random() * 0.3 + 0.1,
-        wobble: Math.random() * Math.PI * 2
-      };
-    }
-    
-    function initWaterDrops() {
-      waterDrops = [];
-      for (let i = 0; i < maxDrops; i++) {
-        waterDrops.push(createWaterDrop());
-      }
-    }
-    
-    function animateWaterDrops() {
-      if (prefersReducedMotion) return;
-      
-      waterCtx.clearRect(0, 0, waterCanvas.width, waterCanvas.height);
-      
-      waterDrops.forEach((drop, index) => {
-        drop.y += drop.speed;
-        drop.wobble += 0.02;
-        drop.x += Math.sin(drop.wobble) * 0.3;
-        
-        if (drop.y > waterCanvas.height + 10) {
-          waterDrops[index] = createWaterDrop();
-          waterDrops[index].y = -10;
-        }
-        
-        const gradient = waterCtx.createRadialGradient(
-          drop.x, drop.y, 0,
-          drop.x, drop.y, Math.max(1, drop.radius)
-        );
-        gradient.addColorStop(0, `rgba(255, 184, 0, ${drop.opacity})`);
-        gradient.addColorStop(1, 'rgba(255, 184, 0, 0)');
-        
-        waterCtx.beginPath();
-        waterCtx.arc(drop.x, drop.y, Math.max(0.5, drop.radius), 0, Math.PI * 2);
-        waterCtx.fillStyle = gradient;
-        waterCtx.fill();
+    function animate() {
+      if(prefersReducedMotion) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drops.forEach((d, i) => {
+        d.y += d.s; d.w += 0.02; d.x += Math.sin(d.w) * 0.3;
+        if(d.y > canvas.height + 10) drops[i] = createDrop(); drops[i].y = -10;
+        const g = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, Math.max(1, d.r));
+        g.addColorStop(0, `rgba(255, 184, 0, ${d.o})`); g.addColorStop(1, 'rgba(255, 184, 0, 0)');
+        ctx.beginPath(); ctx.arc(d.x, d.y, Math.max(0.5, d.r), 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
       });
-      
-      requestAnimationFrame(animateWaterDrops);
+      requestAnimationFrame(animate);
     }
     
-    resizeWaterCanvas();
-    initWaterDrops();
-    animateWaterDrops();
-    
-    window.addEventListener('resize', () => {
-      resizeWaterCanvas();
-    });
-    
-    // ============================================
-    // CLOCK MARKERS
-    // ============================================
-    
+    resize(); drops = Array(60).fill(0).map(createDrop); animate();
+    window.addEventListener('resize', resize);
+
+    // --- Clock Markers (Code 2 Feature) ---
     const clockMarkers = document.getElementById('clock-markers');
     if (clockMarkers) {
       for (let i = 0; i < 12; i++) {
@@ -1868,146 +1723,175 @@
         clockMarkers.appendChild(marker);
       }
     }
-    
-    // ============================================
-    // NAVIGATION SCROLL EFFECT
-    // ============================================
-    
+
+    // --- Nav Scroll Effect ---
     const nav = document.getElementById('nav');
-    
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 100) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
-      }
-    });
-    
-    // ============================================
-    // MOBILE MENU
-    // ============================================
-    
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 100));
+
+    // --- Mobile Menu ---
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    
-    if (menuBtn && mobileMenu) {
-      menuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('active');
-        const isOpen = mobileMenu.classList.contains('active');
-        menuBtn.innerHTML = isOpen 
-          ? '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>'
-          : '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
-      });
-      
-      mobileMenu.querySelectorAll('a, button').forEach(link => {
-        link.addEventListener('click', () => {
-          // Only close if it's not the book now button (which opens overlay)
-          if (!link.classList.contains('book-now-btn')) {
-            mobileMenu.classList.remove('active');
-            menuBtn.innerHTML = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
-          }
-        });
-      });
-    }
-    
-    // ============================================
-    // BOOKING OVERLAY LOGIC
-    // ============================================
-    
-    const bookingOverlay = document.getElementById('booking-overlay');
-    const bookingForm = document.getElementById('booking-form');
-    const closeBookingBtn = document.getElementById('close-booking');
-    const bookNowBtns = document.querySelectorAll('.book-now-btn');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      menuBtn.innerHTML = mobileMenu.classList.contains('active') 
+        ? '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>'
+        : '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('active')));
 
-    function openBooking() {
-      bookingOverlay.classList.add('active');
+    // --- Booking Modal Logic (Merged) ---
+    const overlay = document.getElementById('booking-overlay');
+    const bookingForm = document.getElementById('booking-form');
+    const closeBtn = document.getElementById('close-booking');
+    
+    // Generic 'Book Now' buttons
+    document.querySelectorAll('.book-now-btn').forEach(b => {
+      b.addEventListener('click', (e) => {
+        e.preventDefault();
+        openBooking('General Service', 'Select on form', 'Variable');
+      });
+    });
+
+    function openBooking(service, vehicle, price) {
+      document.getElementById('booking-title').innerText = `Book: ${service}`;
+      document.getElementById('booking-subtitle').innerText = `Vehicle: ${vehicle} | Price: ${price}`;
+      
+      // Pre-fill hidden fields
+      document.getElementById('b-service').value = service;
+      document.getElementById('b-vehicle').value = vehicle;
+      document.getElementById('b-price').value = price;
+
+      // Attempt to pre-select dropdowns if they match
+      const serviceSelect = document.getElementById('b-service-select');
+      const vehicleSelect = document.getElementById('b-vehicle-select');
+      
+      // Set service dropdown if option exists
+      for(let i=0; i<serviceSelect.options.length; i++){
+        if(serviceSelect.options[i].value === service){
+          serviceSelect.value = service;
+          break;
+        }
+      }
+      // Set vehicle dropdown if option exists
+      for(let i=0; i<vehicleSelect.options.length; i++){
+        if(vehicleSelect.options[i].value === vehicle){
+          vehicleSelect.value = vehicle;
+          break;
+        }
+      }
+
+      overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
-      
-      // Close mobile menu if open
-      if (mobileMenu) mobileMenu.classList.remove('active');
-      
-      // Focus first input
-      setTimeout(() => document.getElementById('name').focus(), 300);
     }
 
     function closeBooking() {
-      bookingOverlay.classList.remove('active');
+      overlay.classList.remove('active');
       document.body.style.overflow = '';
     }
 
-    bookNowBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        openBooking();
-      });
-    });
-
-    closeBookingBtn.addEventListener('click', closeBooking);
-
-    bookingOverlay.addEventListener('click', (e) => {
-      if (e.target === bookingOverlay) closeBooking();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && bookingOverlay.classList.contains('active')) {
-        closeBooking();
-      }
-    });
-
-    // Form Submission
-    bookingForm.addEventListener('submit', (e) => {
+    closeBtn.addEventListener('click', closeBooking);
+    overlay.addEventListener('click', e => { if(e.target === overlay) closeBooking(); });
+	
+	// Show/hide "Others" input field in booking form
+	document.getElementById('b-vehicle-select').addEventListener('change', function() {
+	  const otherInput = document.getElementById('b-other-vehicle-input');
+	  const otherField = document.getElementById('b-vehicle-other');
+  
+	  if(this.value === 'Others') {
+		otherInput.style.display = 'block';
+		otherField.required = true;
+	} else {
+    otherInput.style.display = 'none';
+    otherField.required = false;
+	}
+  });
+	
+    bookingForm.addEventListener('submit', e => {
       e.preventDefault();
-
-      const name = document.getElementById('name').value;
-      const phone = document.getElementById('phone').value;
-      const vehicle = document.getElementById('vehicle').value;
-      const service = document.getElementById('service').value;
-      const date = document.getElementById('date').value;
-      const message = document.getElementById('message').value;
-
-      // Construct WhatsApp Message
-      let text = `*New Booking Request*\n\n`;
-      text += `*Name:* ${name}\n`;
-      text += `*Phone:* ${phone}\n`;
-      text += `*Vehicle:* ${vehicle}\n`;
-      text += `*Service:* ${service}\n`;
+      const name = document.getElementById('b-name').value;
+      const phone = document.getElementById('b-phone').value;
+      const date = document.getElementById('b-date').value;
+      const notes = document.getElementById('b-notes').value;
       
-      if (date) {
-        // Format date to readable string
-        const dateObj = new Date(date);
-        const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        text += `*Preferred Date:* ${formattedDate}\n`;
-      }
+      // Use dropdowns if changed, otherwise use hidden pre-filled values
+      const serviceVal = document.getElementById('b-service-select').value || document.getElementById('b-service').value;
+      const vehicleVal = document.getElementById('b-vehicle-select').value || document.getElementById('b-vehicle').value;
+      const finalVehicleVal = vehicleVal === 'Others' ? document.getElementById('b-vehicle-other').value : vehicleVal;
+	  const priceVal = document.getElementById('b-price').value;
+
+      let text = `*Booking Request*\n\n*Service:* ${serviceVal}\n*Vehicle:* ${finalVehicleVal}\n*Est. Price:* ${priceVal}\n*Name:* ${name}\n*Phone:* ${phone}\n`;
+      if(date) text += `*Date:* ${new Date(date).toDateString()}\n`;
+      if(notes) text += `*Notes:* ${notes}\n`;
       
-      if (message) {
-        text += `\n*Additional Notes:*\n${message}\n`;
-      }
-
-      const encodedText = encodeURIComponent(text);
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedText}`;
-
-      window.open(whatsappUrl, '_blank');
+      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
     });
 
-    // ============================================
-    // HIGHLIGHT TODAY'S HOURS
-    // ============================================
-    
-    const today = new Date().getDay();
-    const todayRow = document.querySelector(`.hours-row[data-day="${today === 0 ? 6 : today - 1}"]`);
-    if (todayRow) {
-      todayRow.classList.add('today');
-    }
-    
-    // ============================================
-    // SCROLL REVEAL ANIMATIONS
-    // ============================================
-    
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+    // --- Monthly Pricing Logic (Code 1) ---
+    const prices = {
+      standard: { car: '$50,000', suv: '$65,000', pickup: '$75,000', other: 'Quoted'},
+      premium: { car: '$90,000', suv: '$115,000', pickup: '$130,000', other: 'Quoted'}
     };
+
+    function updatePrice(btn, plan, type) {
+      const container = btn.closest('.plan-price-selector');
+      container.querySelectorAll('.v-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(`${plan}-price`).innerText = prices[plan][type];
+    }
+
+    // --- Contract Logic (Code 1) ---
+    const contractSection = document.getElementById('contract');
+    const contractForm = document.getElementById('contract-form');
     
+    function openContract(plan) {
+      document.getElementById('contract-plan').value = plan;
+      contractSection.style.display = 'block';
+      // Scroll to contract nicely
+      setTimeout(() => contractSection.scrollIntoView({ behavior: 'smooth' }), 100);
+    }
+	
+	// Show/hide "Others" input field
+	document.getElementById('c-vehicle').addEventListener('change', function() {
+	  const otherInput = document.getElementById('other-vehicle-input');
+	  const otherField = document.getElementById('c-vehicle-other');
+  
+	  if(this.value === 'Others') {
+		otherInput.style.display = 'block';
+		otherField.required = true;
+	} else {
+	  otherInput.style.display = 'none';
+	  otherField.required = false;
+	}
+	});
+
+    contractForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const plan = document.getElementById('contract-plan').value;
+      const name = document.getElementById('c-name').value;
+      const phone = document.getElementById('c-phone').value;
+      const vehicleType = document.getElementById('c-vehicle').value;
+	  const finalVehicle = vehicleType === 'Others' ? document.getElementById('c-vehicle-other').value : vehicleType;
+      const plate = document.getElementById('c-plate').value;
+
+      let text = `*NEW MONTHLY AGREEMENT*\n\n`;
+      text += `*Plan:* ${plan}\n`;
+      text += `*Customer:* ${name}\n`;
+      text += `*Phone:* ${phone}\n`;
+      text += `*Vehicle:* ${finalVehicle}\n`;
+      text += `*Plate:* ${plate}\n\n`;
+      text += `Customer has agreed to the terms and conditions.`;
+
+      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
+    });
+
+    // --- Highlight Today (Code 2) ---
+    const todayDay = new Date().getDay();
+    // Map JS day (0=Sun) to data-day index (0=Mon, 6=Sun)
+    const dataIndex = todayDay === 0 ? 6 : todayDay - 1;
+    const todayRow = document.querySelector(`.hours-row[data-day="${dataIndex}"]`);
+    if (todayRow) todayRow.classList.add('today');
+
+    // --- Scroll Reveal (Code 2) ---
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
@@ -2016,86 +1900,14 @@
           }, index * 100);
         }
       });
-    }, observerOptions);
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
     
-    document.querySelectorAll('.reveal, .service-card').forEach(el => {
-      revealObserver.observe(el);
-    });
-    
-    // ============================================
-    // SCROLL TO TOP BUTTON
-    // ============================================
-    
-    const scrollTopBtn = document.getElementById('scroll-top');
-    
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 500) {
-        scrollTopBtn.classList.add('visible');
-      } else {
-        scrollTopBtn.classList.remove('visible');
-      }
-    });
-    
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-    
-    // ============================================
-    // SMOOTH SCROLL FOR ANCHOR LINKS
-    // ============================================
-    
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href === '#') return;
-        
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-    
-    // ============================================
-    // SERVICE CARDS HOVER EFFECT
-    // ============================================
-    
-    if (!prefersReducedMotion) {
-      document.querySelectorAll('.service-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-8px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-          this.style.transform = 'translateY(0)';
-        });
-      });
-    }
-    
-    // ============================================
-    // CONSOLE BRANDING
-    // ============================================
-    
-    console.log('%c JAGUAR JET WASH ', 'background: #ffb800; color: #1a0f0a; font-size: 20px; font-weight: bold; padding: 10px;');
-    console.log('%c Taming the grime, one wash at a time! ', 'color: #a89080; font-size: 14px;');
-    
-    // ============================================
-    // KEYBOARD ACCESSIBILITY
-    // ============================================
-    
-    document.querySelectorAll('.contact-card, .social-link, .btn-primary, .btn-secondary').forEach(el => {
-      if (!el.classList.contains('book-now-btn')) {
-        el.setAttribute('tabindex', '0');
-        el.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            el.click();
-          }
-        });
-      }
-    });
+    document.querySelectorAll('.reveal, .service-card').forEach(el => revealObserver.observe(el));
+
+    // --- Scroll to Top ---
+    const scrollTop = document.getElementById('scroll-top');
+    window.addEventListener('scroll', () => scrollTop.classList.toggle('visible', scrollY > 500));
+    scrollTop.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
   </script>
 </body>
-
 </html>
