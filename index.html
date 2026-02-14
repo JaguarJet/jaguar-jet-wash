@@ -1746,20 +1746,26 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Vehicle Type</label>
-           <select id="b-vehicle-select" class="form-input">
-             <option value="" disabled selected>Select vehicle</option>
-             <option value="Standard Car">Standard Car</option>
-             <option value="SUV / Crossover">SUV / Crossover</option>
-             <option value="Pickup Truck">Pickup Truck</option>
-             <option value="Bus / Large Van">Bus / Large Van</option>
-			 <option value="Others">Others</option>
-           </select>
-        </div>
-        <div class="form-group">
-          <label>Preferred Date</label>
-          <input type="date" id="b-date" class="form-input">
-        </div>
+		  <label>Vehicle Type</label>
+		  <select id="b-vehicle-select" class="form-input">
+			<option value="" disabled selected>Select vehicle</option>
+			<option value="Standard Car">Standard Car</option>
+			<option value="SUV / Crossover">SUV / Crossover</option>
+			<option value="Pickup Truck">Pickup Truck</option>
+			<option value="Bus / Large Van">Bus / Large Van</option>
+			<option value="Others">Others</option>
+		  </select>
+		</div>
+
+		<div class="form-group" id="b-other-vehicle-input" style="display: none;">
+		  <label>Specify Other Vehicle</label>
+		  <input type="text" id="b-vehicle-other" class="form-input" placeholder="e.g. Motorcycle, Tractor">
+		</div>
+
+		<div class="form-group">
+		  <label>Preferred Date</label>
+		  <input type="date" id="b-date" class="form-input">
+		</div>
         <div class="form-group">
           <label>Notes</label>
           <textarea id="b-notes" class="form-input" rows="3" placeholder="Any specific requests?"></textarea>
@@ -1776,6 +1782,12 @@
     // --- Globals ---
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const whatsappNumber = '5927386158';
+	
+	const dateInput = document.getElementById('b-date');
+	if (dateInput) {
+		const today = new Date().toISOString().split('T')[0];
+		dateInput.setAttribute('min', today); // Sets the minimum selectable date to today
+	}
 
     // --- Water Canvas ---
     const canvas = document.getElementById('water-canvas');
@@ -1918,25 +1930,58 @@
   });
 	
     bookingForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const name = document.getElementById('b-name').value;
-      const phone = document.getElementById('b-phone').value;
-      const date = document.getElementById('b-date').value;
-      const notes = document.getElementById('b-notes').value;
-      
-      // Use dropdowns if changed, otherwise use hidden pre-filled values
-      const serviceVal = document.getElementById('b-service-select').value || document.getElementById('b-service').value;
-      const vehicleVal = document.getElementById('b-vehicle-select').value || document.getElementById('b-vehicle').value;
-      const finalVehicleVal = vehicleVal === 'Others' ? document.getElementById('b-vehicle-other').value : vehicleVal;
-	  const priceVal = document.getElementById('b-price').value;
+		e.preventDefault();
+		
+		// 1. Give a confirmation prompt
+		const proceed = confirm("Ready to send your booking via WhatsApp?");
+		if (!proceed) return;
 
-      let text = `*Booking Request*\n\n*Service:* ${serviceVal}\n*Vehicle:* ${finalVehicleVal}\n*Est. Price:* ${priceVal}\n*Name:* ${name}\n*Phone:* ${phone}\n`;
-      if(date) text += `*Date:* ${new Date(date).toDateString()}\n`;
-      if(notes) text += `*Notes:* ${notes}\n`;
-      
-      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
-    });
+		// 1. Basic Info
+		const name = document.getElementById('b-name').value;
+		const phone = document.getElementById('b-phone').value;
+		const date = document.getElementById('b-date').value;
+		const notes = document.getElementById('b-notes').value || "None";
 
+		// 2. VEHICLE LOGIC (The Fix)
+		const vehicleSelect = document.getElementById('b-vehicle-select');
+		let finalVehicle = vehicleSelect.value;
+
+		// If 'Others' is selected, grab the value from the custom text input
+		if (finalVehicle === 'Others') {
+			finalVehicle = document.getElementById('b-vehicle-other').value;
+		}
+
+		// Safety: If they picked 'Others' but left the text box empty
+		if (!finalVehicle) {
+			alert("Please specify your vehicle type.");
+			return;
+		}
+
+		const serviceVal = document.getElementById('b-service-select')?.value || document.getElementById('b-service').value;
+		const priceVal = document.getElementById('b-price').value || "Quoted";
+
+		// 3. Build Message
+		let text = `━━━━━━━━━━━━━━━━━━━━\n`;
+		text += `*JAGUAR JET WASH*\n`;
+		text += `*BOOKING REQUEST*\n`;
+		text += `━━━━━━━━━━━━━━━━━━━━\n`;
+		text += `*Client:* ${name}\n`;
+		text += `*Vehicle:* ${finalVehicle}\n`;
+		text += `*Service:* ${serviceVal}\n`;
+		text += `*Date:* ${date}\n`;
+		text += `*Notes:* ${notes}\n`;
+		text += `━━━━━━━━━━━━━━━━━━━━\n`;
+
+		// 4. Open WhatsApp & Reset
+		window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
+    
+		// Success Actions
+		overlay.classList.remove('active');
+		bookingForm.reset();
+		document.getElementById('b-other-vehicle-input').style.display = 'none'; // Hide the box for next time
+		
+		alert("Booking details sent! Please click 'Send' in WhatsApp.");
+	});
     // --- Monthly Pricing Logic (Code 1) ---
     const prices = {
       standard: { car: '$50,000', suv: '$65,000', pickup: '$75,000', other: 'Quoted'},
