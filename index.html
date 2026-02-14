@@ -1536,7 +1536,7 @@
       <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 1.1rem;">All pressure washing services are custom quoted based on square footage and surface type.</p>
       <button class="btn-primary book-now-btn" onclick="openBooking('Pressure Washing', 'Quoted', 'Quote Request')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        Call Now for Quote
+        Call Now for Free Quote
       </button>
     </div>
   </section>
@@ -1932,9 +1932,17 @@
     bookingForm.addEventListener('submit', e => {
 		e.preventDefault();
 		
-		// 1. Give a confirmation prompt
-		const proceed = confirm("Ready to send your booking via WhatsApp?");
-		if (!proceed) return;
+		const proceed = confirm("Ready to send your booking via WhatsApp?\n\n(If you don't have WhatsApp, click 'Cancel' to Call us directly.)");
+
+		if (!proceed) {
+			// If they click 'Cancel', offer a direct phone call
+			const callInstead = confirm("Would you like to call Jaguar Jet Wash instead?");
+			if (callInstead) {
+				window.location.href = `tel:${whatsappNumber}`;
+			}
+			return;
+		}
+
 
 		// 1. Basic Info
 		const name = document.getElementById('b-name').value;
@@ -1980,7 +1988,7 @@
 		bookingForm.reset();
 		document.getElementById('b-other-vehicle-input').style.display = 'none'; // Hide the box for next time
 		
-		alert("Booking details sent! Please click 'Send' in WhatsApp.");
+		alert("Booking details prepared! If WhatsApp didn't open automatically, please call us at " + whatsappNumber);
 	});
     // --- Monthly Pricing Logic (Code 1) ---
     const prices = {
